@@ -100,17 +100,35 @@ export default function Navbar() {
               Projects
             </a>
 
+            <a
+              href="/blog"
+              onClick={handleCloseMenu}
+              className={`text-xl font-light text-[#000000] ${menuClosing ? 'animate-fadeOutLeft' : 'animate-fadeInLeft'}`}
+              style={{ animationDelay: menuClosing ? '0ms' : '600ms' }}
+            >
+              Blog
+            </a>
+
+            <a
+              href="/privacy-policy"
+              onClick={handleCloseMenu}
+              className={`text-xl font-light text-[#000000] ${menuClosing ? 'animate-fadeOutLeft' : 'animate-fadeInLeft'}`}
+              style={{ animationDelay: menuClosing ? '0ms' : '700ms' }}
+            >
+              Privacy Policy
+            </a>
+
             <button
               onClick={handleContactClick}
               className={`text-xl font-light text-[#000000] ${menuClosing ? 'animate-fadeOutLeft' : 'animate-fadeInLeft'}`}
-              style={{ animationDelay: menuClosing ? '0ms' : '600ms' }}
+              style={{ animationDelay: menuClosing ? '0ms' : '800ms' }}
             >
               Contact
             </button>
           </div>
 
           {/* Bottom Logo Section */}
-          <div className={`pb-10 flex flex-col items-center ${menuClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`} style={{ animationDelay: menuClosing ? '0ms' : '700ms' }}>
+          <div className={`pb-10 flex flex-col items-center ${menuClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`} style={{ animationDelay: menuClosing ? '0ms' : '900ms' }}>
             <Image
               src="/hamburgerLogo.svg"
               alt="SZ Developers"

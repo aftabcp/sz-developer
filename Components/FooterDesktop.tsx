@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import EnquiryModal from "./EnquiryModal";
 
@@ -105,10 +106,22 @@ export default function FooterDesktop() {
               <div className="services-sub-heading">
                 <button 
                   onClick={scrollToProjects}
-                  className="text-left hover:text-[#00CC61] transition-colors cursor-pointer"
+                  className="text-left hover:text-[#00CC61] transition-colors cursor-pointer animate-fadeInUp"
                 >
                   Our Projects
                 </button>
+                <Link
+                  href="/blog"
+                  className="text-left hover:text-[#00CC61] transition-colors"
+                >
+                  Blog
+                </Link>
+                <Link
+                  href="/privacy-policy"
+                  className="text-left hover:text-[#00CC61] transition-colors"
+                >
+                  Privacy Policy
+                </Link>
                 <button 
                   onClick={handleContactClick}
                   className="text-left hover:text-[#00CC61] transition-colors cursor-pointer"

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import EnquiryModal from "./EnquiryModal";
 
@@ -79,6 +80,20 @@ export default function FooterMobile() {
               >
                 Our Projects
               </button>
+
+              <Link
+                href="/blog"
+                className="block text-left hover:text-[#00CC61] transition-colors"
+              >
+                Blog
+              </Link>
+
+              <Link
+                href="/privacy-policy"
+                className="block text-left hover:text-[#00CC61] transition-colors"
+              >
+                Privacy Policy
+              </Link>
 
               <button
                 onClick={handleContactClick}
