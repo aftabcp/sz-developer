@@ -69,12 +69,15 @@ export default function BlogPostEditor({
   const [seoOpen, setSeoOpen] = useState(false);
   const [hasAutosave, setHasAutosave] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [htmlMode, setHtmlMode] = useState(false);
+  const [htmlSource, setHtmlSource] = useState(initialData?.content || "");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const editorFileInputRef = useRef<HTMLInputElement>(null);
 
   // Initialize TipTap Editor
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
       Underline,
@@ -254,6 +257,19 @@ export default function BlogPostEditor({
     }
   };
 
+  // Toggle HTML source view
+  const handleToggleHtmlMode = () => {
+    if (!editor) return;
+    if (!htmlMode) {
+      // Entering HTML mode — capture current editor HTML
+      setHtmlSource(editor.getHTML());
+    } else {
+      // Leaving HTML mode — apply edited HTML back to editor
+      editor.commands.setContent(htmlSource);
+    }
+    setHtmlMode((prev) => !prev);
+  };
+
   // Insert Link Tool
   const handleInsertLink = () => {
     if (!editor) return;
@@ -285,7 +301,7 @@ export default function BlogPostEditor({
       title,
       slug,
       excerpt,
-      content: editor ? editor.getHTML() : "",
+      content: htmlMode ? htmlSource : editor ? editor.getHTML() : "",
       cover_image_url: coverImageUrl,
       author,
       category,
@@ -560,21 +576,49 @@ export default function BlogPostEditor({
               >
                 Redo
               </button>
+
+              <span className="w-[1px] h-6 bg-gray-200 mx-1 align-middle self-center" />
+
+              {/* HTML Source Toggle */}
+              <button
+                type="button"
+                onClick={handleToggleHtmlMode}
+                className={`p-2 rounded text-xs font-mono font-bold cursor-pointer ${
+                  htmlMode ? "bg-gray-800 text-white" : "text-gray-600 hover:bg-gray-100"
+                }`}
+                title="Toggle HTML source view"
+              >
+                &lt;/&gt; HTML
+              </button>
             </div>
           )}
 
           {/* Editor Editable Area */}
           <div className="p-6 flex-1 focus:outline-none">
-            <EditorContent 
-              editor={editor}
-              className="prose prose-sm max-w-none min-h-[400px] outline-none"
-            />
+            {htmlMode ? (
+              <textarea
+                value={htmlSource}
+                onChange={(e) => setHtmlSource(e.target.value)}
+                className="w-full min-h-[400px] font-mono text-xs bg-gray-950 text-green-400 p-4 rounded-lg outline-none resize-none leading-relaxed"
+                spellCheck={false}
+                placeholder="Paste or write raw HTML here..."
+              />
+            ) : (
+              <EditorContent
+                editor={editor}
+                className="prose prose-sm max-w-none min-h-[400px] outline-none"
+              />
+            )}
           </div>
 
           {/* Character / Word count footer */}
           <div className="bg-gray-50 px-6 py-3 border-t border-gray-100 text-[10px] text-gray-400 font-bold flex justify-between uppercase tracking-wider">
             <span>
-              {editor ? editor.getText().trim().split(/\s+/).filter(Boolean).length : 0} Words
+              {htmlMode
+                ? htmlSource.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean).length
+                : editor
+                ? editor.getText().trim().split(/\s+/).filter(Boolean).length
+                : 0} Words
             </span>
             <span>
               {readingTime} MIN READ TIME
